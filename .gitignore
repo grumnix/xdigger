@@ -1,3 +1,12 @@
 *~
+
+# Nix
 /result
 /result-[0-9]
+
+# xdigger
+*.o
+/Makefile
+/imake*.c
+/xdigger
+/xdigger._man
