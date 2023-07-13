@@ -18,10 +18,13 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
 
+#include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <pwd.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 
 #include "configure.h"
@@ -41,6 +44,40 @@ typedef struct
 
 ScoreEntry highscore[20];
 
+char* get_highscore_dir()
+{
+  static char highscore_dir[1024] = {0};
+
+  char* stat_home = getenv("XDG_STATE_HOME");
+  if (stat_home)
+  {
+    int ret = snprintf(highscore_dir, sizeof(highscore_dir), "%s/xdigger", stat_home);
+    if (ret < 0) {
+      return NULL;
+    } else if (ret >= sizeof(highscore_dir)) {
+      return NULL;
+    }
+    return highscore_dir;
+  }
+  else
+  {
+    char* home = getenv("HOME");
+    if (!home) {
+      return NULL;
+    }
+    else
+    {
+      int ret = snprintf(highscore_dir, sizeof(highscore_dir), "%s/.local/state/xdigger", home);
+      if (ret < 0) {
+        return NULL;
+      } else if (ret >= sizeof(highscore_dir)) {
+        return NULL;
+      }
+      return highscore_dir;
+    }
+  }
+}
+
 void LoadHighScore()
 {
   char filename[256];
@@ -53,25 +90,23 @@ void LoadHighScore()
       strcpy(highscore[i].name, "");
     }
 
-  snprintf(filename, sizeof(filename), "%s/xdigger.hiscore",
-    XDIGGER_HISCORE_DIR);
-  if ((filehandle = fopen(filename, "r")) == NULL)
+  char* highscore_dir = get_highscore_dir();
+  if (highscore_dir) {
+    snprintf(filename, sizeof(filename), "%s/xdigger.hiscore",
+             highscore_dir);
+
+    if ((filehandle = fopen(filename, "r")) == NULL)
     {
-      XBell(display, -50);
       fprintf(stderr, "%s: can't read %s\n", progname, filename);
-      snprintf(filename, sizeof(filename), "%s.hiscore", progname);
-      fprintf(stderr, "%s: try %s ... ", progname, filename);
-      if ((filehandle = fopen(filename, "r")) == NULL)
-/* 	  fprintf(stderr, "can't read %s\n", filename); */
-	fprintf(stderr, "failed.\n");
-      else
-	fprintf(stderr, "ok.\n");
     }
+  }
+
   if (filehandle != NULL)
     {
       n = fread(highscore, sizeof(highscore), 1, filehandle);
       fclose(filehandle);
     }
+
   if (n < 1) /*sizeof(highscore)*/
     {
       highscore[0].score = 10000; strcpy(highscore[0].name, "--------------");
@@ -88,25 +123,33 @@ void SaveHighScore()
   FILE *filehandle;
   int n = 0;
 
-  snprintf(filename, sizeof(filename), "%s/xdigger.hiscore",
-    XDIGGER_HISCORE_DIR);
-  if ((filehandle = fopen(filename, "w")) == NULL)
+  char* highscore_dir = get_highscore_dir();
+  if (highscore_dir)
+  {
+    // create highscore directory if it does not already exist
+    struct stat st;
+    if (!(stat(highscore_dir, &st) == 0 && S_ISDIR(st.st_mode))) {
+      errno = 0;
+      int status = mkdir(highscore_dir, 0700);
+      if (status < 0) {
+        fprintf(stderr, "failed to create highscore directory: %s: %s\n", highscore_dir, strerror(errno));
+      }
+    }
+
+    snprintf(filename, sizeof(filename), "%s/xdigger.hiscore",
+             highscore_dir);
+    if ((filehandle = fopen(filename, "w")) == NULL)
     {
       XBell(display, -50);
       fprintf(stderr, "%s: can't write %s\n", progname, filename);
-      snprintf(filename, sizeof(filename), "%s.hiscore", progname);
-      fprintf(stderr, "try %s ... ", filename);
-      if ((filehandle = fopen(filename, "w")) == NULL)
-/* 	fprintf(stderr, "can't write %s\n", filename); */
-	fprintf(stderr, "failed.\n");
-      else
-	fprintf(stderr, "ok.\n");
     }
-  if (filehandle != NULL)
+    if (filehandle != NULL)
     {
       n = fwrite(highscore, sizeof(highscore), 1, filehandle);
       fclose(filehandle);
     }
+  }
+
   if (n < 1) /*sizeof(highscore)*/
     fprintf(stderr, "%s: an error occured while writing highscorefile\n",
             progname);

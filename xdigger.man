@@ -39,7 +39,7 @@ Some standard X toolkit parameters may be given, such as
 
 .SH FILES
 /usr/share/games/xdigger/xdigger.level
-/var/games/xdigger.hiscore
+~/.local/stat/xdigger/xdigger.hiscore
 
 .SH KEYBOARD BINDINGS
 The \fBarrow\fP keys will move the man.
