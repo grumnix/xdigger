@@ -16,6 +16,7 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 
 #define USE_PIPE
 
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
@@ -46,6 +47,10 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #include <audio/audiolib.h>
 #include <audio/soundlib.h>
 #endif
+#ifdef SOUND_SDL
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+#endif
 #include "xdigger.h"
 #include "sound.h"
 
@@ -64,6 +69,10 @@ int msgqid;
 AuServer *auserver = NULL;
 char *aureturn_status;
 AuBucketID aubucketids[3];
+#endif
+
+#ifdef SOUND_SDL
+Mix_Chunk* soundsdl_chunks[3] = { NULL, NULL, NULL };
 #endif
 
 void StartSoundServer()
@@ -368,6 +377,41 @@ void sound_init()
 {
   if (sound_device == SD_NONE) return;
 
+#ifdef SOUND_SDL
+  sound_device = SD_SDL;
+
+  if (SDL_Init(SDL_INIT_AUDIO) != 0) {
+    fprintf(stderr, "SDL_Init Error: %s\n", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+  atexit(SDL_Quit);
+
+  Mix_Init(0);
+  if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+    fprintf(stderr, "Mix_Init Error: %s\n", SDL_GetError());
+    exit(EXIT_FAILURE);
+  }
+
+  char const* soundfiles[] = { "step.wav", "stone.wav", "diamond.wav" };
+  assert(sizeof(soundfiles) / sizeof(soundfiles[0]) ==
+         sizeof(soundsdl_chunks) / sizeof(soundsdl_chunks[0]));
+  for (size_t i = 0; i < sizeof(soundfiles) / sizeof(soundfiles[0]); ++i)
+  {
+    char name[256];
+    snprintf(name, sizeof(name), "%s/%s", XDIGGER_LIB_DIR, soundfiles[i]);
+    if (debug) fprintf(stderr, "loading sound: %s\n", name);
+
+    Mix_Chunk* chunk = Mix_LoadWAV(name);
+    if (!chunk) {
+      fprintf(stderr, "failed to load sound: %s %s\n", name, SDL_GetError());
+      continue;
+    }
+    soundsdl_chunks[i] = chunk;
+  }
+
+  return;
+#endif
+
   if (sound_device == SD_AUTO)
   {
     if (XDisplay_is_on_Localhost())
@@ -468,6 +512,20 @@ void Play_NAS_Sound(char ton_typ)
 
 void sound(char ton_typ)
 {
+#ifdef SOUND_SDL
+  if (sound_device == SD_SDL)
+  {
+    assert(ton_typ >= 0);
+    assert(ton_typ < (sizeof(soundsdl_chunks) / sizeof(soundsdl_chunks[0])));
+    int channel = Mix_PlayChannel(-1, soundsdl_chunks[ton_typ], 0);
+    if (channel == -1) {
+      fprintf(stderr, "failed to play sound: %d %s\n", (int)ton_typ, SDL_GetError());
+      return;
+    }
+    return;
+  }
+#endif
+
 #ifdef SOUND_DSP_AUDIO
 
   if (soundserver_started) 
@@ -529,6 +587,21 @@ void sound(char ton_typ)
 
 void sound_done()
 {
+#ifdef SOUND_SDL
+  if (sound_device == SD_SDL)
+  {
+    for (size_t i = 0; i < sizeof(soundsdl_chunks) / sizeof(soundsdl_chunks[0]); ++i)
+    {
+      if (soundsdl_chunks[i]) {
+        Mix_FreeChunk(soundsdl_chunks[i]);
+      }
+    }
+    Mix_CloseAudio();
+    SDL_Quit();
+    return;
+  }
+#endif
+
 #ifdef SOUND_DSP_AUDIO
 
   if (soundserver_started)

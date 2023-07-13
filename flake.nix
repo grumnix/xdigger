@@ -29,11 +29,14 @@
 
             nativeBuildInputs = with pkgs; [
               cmake
+              pkg-config
             ];
 
             buildInputs = with pkgs; [
               xorg.libX11
               xorg.libXext
+              SDL2
+              SDL2_mixer
             ];
           };
         };

@@ -349,6 +349,9 @@ void Help()
 #ifdef SOUND_NAS
   printf("nas|");
 #endif
+#ifdef SOUND_SDL
+  printf("sdl|");
+#endif
   printf("auto|off] [-v] [-h]\n");
   /*printf("       where n is a positive integer (default is 2)\n");*/
   exit(1);
@@ -387,7 +390,17 @@ int main(int argc, char **argv)
                       "xdigger for NAS-support\n", progname);
               exit(1);
             }
-#endif            
+#endif
+            if(!strcmp(argv[i], "sdl"))
+#ifdef SOUND_SDL
+              sound_device = SD_SDL; else
+#else
+            {
+              fprintf(stderr, "%s: edit configure.h and recompile "
+                      "xdigger for SDL-support\n", progname);
+              exit(1);
+            }
+#endif
 #ifdef SOUND_DSP_AUDIO
 #ifdef linux
             if(!strcmp(argv[i], "dsp")) sound_device = SD_DSP; else

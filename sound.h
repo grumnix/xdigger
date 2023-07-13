@@ -39,6 +39,7 @@ extern unsigned char ton_buffer[3][2000];
 #define SD_XBELL 3
 #define SD_RPLAY 4
 #define SD_NAS   5
+#define SD_SDL   6
 
 #define KC_FREQ 58472
 
