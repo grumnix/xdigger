@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=xdigger
+Comment=Arcade diamonds digging game.
+Type=Application
+Exec=xdigger
+Icon=xdigger
+Categories=Game;ArcadeGame;
+Terminal=false
