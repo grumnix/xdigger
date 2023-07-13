@@ -53,12 +53,13 @@ void LoadHighScore()
       strcpy(highscore[i].name, "");
     }
 
-  strcat(strcpy(filename, XDIGGER_HISCORE_DIR), "/xdigger.hiscore");
+  snprintf(filename, sizeof(filename), "%s/xdigger.hiscore",
+    XDIGGER_HISCORE_DIR);
   if ((filehandle = fopen(filename, "r")) == NULL)
     {
       XBell(display, -50);
       fprintf(stderr, "%s: can't read %s\n", progname, filename);
-      strcpy(filename, progname); strcat(filename, ".hiscore");
+      snprintf(filename, sizeof(filename), "%s.hiscore", progname);
       fprintf(stderr, "%s: try %s ... ", progname, filename);
       if ((filehandle = fopen(filename, "r")) == NULL)
 /* 	  fprintf(stderr, "can't read %s\n", filename); */
@@ -87,12 +88,13 @@ void SaveHighScore()
   FILE *filehandle;
   int n = 0;
 
-  strcat(strcpy(filename, XDIGGER_HISCORE_DIR), "/xdigger.hiscore");
+  snprintf(filename, sizeof(filename), "%s/xdigger.hiscore",
+    XDIGGER_HISCORE_DIR);
   if ((filehandle = fopen(filename, "w")) == NULL)
     {
       XBell(display, -50);
       fprintf(stderr, "%s: can't write %s\n", progname, filename);
-      strcpy(filename, progname); strcat(filename, ".hiscore");
+      snprintf(filename, sizeof(filename), "%s.hiscore", progname);
       fprintf(stderr, "try %s ... ", filename);
       if ((filehandle = fopen(filename, "w")) == NULL)
 /* 	fprintf(stderr, "can't write %s\n", filename); */
@@ -128,10 +130,10 @@ void GetUserName(char *dest, size_t n)
   char name[257], *c;
 
   who = getpwuid(getuid());
-  strncpy(name, who->pw_gecos, 256);
+  snprintf(name, sizeof(name), "%s", who->pw_gecos);
   c = strchr(name, ',') ;
   if (c != NULL) *c = '\0';
-  strncpy(dest, name, n);
+  snprintf(dest, n, "%s", name);
 } /* GetUserName(char *dest, size_t n) */
 
 int InsertScore(int score, char *name)
@@ -146,10 +148,11 @@ int InsertScore(int score, char *name)
       for (j=19; j>i; j--)
 	{
 	  highscore[j].score = highscore[j-1].score;
-	  strcpy(highscore[j].name, highscore[j-1].name);
+	  snprintf(highscore[j].name, sizeof(highscore[j].name),
+	    highscore[j-1].name);
 	}
       highscore[i].score = score;
-      strncpy(highscore[i].name, name, NAMELENGH);
+      snprintf(highscore[i].name, sizeof(highscore[i].name), name);
       break;
     }
   return(erg);
@@ -168,7 +171,7 @@ void InitHighScoreText()
 
   for (i=0; i<20; i++)
     {
-      sprintf(entry, "%.6d  %s", highscore[i].score, highscore[i].name);
+      snprintf(entry, sizeof(entry), "%.6d  %s", highscore[i].score, highscore[i].name);
       WriteTextStr(entry, 10, 7+i, kcf_gelb, kcb_tuerkis);
     }
 } /* InitHighScoreText() */
@@ -238,7 +241,7 @@ void HighScore(int score)
 	      if ((strlen(nameinput) < 20) && (strlen(buffer) == 1) &&
 		  (0x20 <= buffer[0]) && (y>=0))
 		{
-		  strcat(nameinput, buffer);
+		  strncat(nameinput, buffer, NAMELENGH - strlen(nameinput));
 		  WriteTextStr(nameinput, 18, inpy, kcf_gelb, kcb_tuerkis);
 		  WriteTextStr("\177", 18 + strlen(nameinput), inpy, 
 			       kcf_gelb, kcb_tuerkis);

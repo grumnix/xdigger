@@ -176,11 +176,11 @@ Bool Determine_Level_Filename()
   if (level_filename == NULL)
   {
     level_filename = malloc(256);
-    strcat(strcpy(level_filename, XDIGGER_LIB_DIR), "/xdigger.level");
+    snprintf(level_filename, 256, "%s/xdigger.level", XDIGGER_LIB_DIR);
     if ((f = fopen(level_filename, "r")) == NULL)
     {
       fprintf(stderr, "%s: can't open %s\n", progname, level_filename);
-      strcpy(level_filename, progname); strcat(level_filename, ".level");
+      snprintf(level_filename, 256, "%s.level", progname);
       fprintf(stderr, "%s: try %s... ", progname, level_filename);
       if ((f = fopen(level_filename, "r")) == NULL)
       {
@@ -362,7 +362,7 @@ int main(int argc, char **argv)
 
   pargc = argc;
   pargv = argv;
-  strcpy(progname, argv[0]);
+  snprintf(progname, sizeof(progname), "%s", argv[0]);
   LastArgv = argv[argc - 1] + strlen(argv[argc - 1]);
 
   for (i = 1; i < argc; i++)

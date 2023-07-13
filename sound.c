@@ -351,13 +351,13 @@ Bool XDisplay_is_on_Localhost()
   /*struct hostent localhost_ent, xhost_ent;*/
     
   gethostname(localhost, sizeof(localhost));
-  strcpy(xhost, DisplayString(display));
+  snprintf(xhost, sizeof(xhost), "%s", DisplayString(display));
   c = strchr(xhost, ':');
   if (c) *c = 0; else xhost[0] = 0;
   if (strlen(xhost) == 0) return(True);
 
-  strcpy(localhost, gethostbyname(localhost)->h_name);
-  strcpy(xhost, gethostbyname(xhost)->h_name);
+  snprintf(localhost, sizeof(localhost), "%s", gethostbyname(localhost)->h_name);
+  snprintf(xhost, sizeof(xhost), "%s", gethostbyname(xhost)->h_name);
   if (debug)
     fprintf(stderr, "%s: localhost=%s\n             xhost=%s\n",
             progname, localhost, xhost);
@@ -496,13 +496,13 @@ void sound(char ton_typ)
       switch (ton_typ)
 	{
 	case TON_DIAMANT:
-	  strcat(name, "/diamond.au");
+	  snprintf(name, sizeof(name), "%s/diamond.au", XDIGGER_LIB_DIR);
 	  break;
 	case TON_SCHRITT:
-	  strcat(name, "/step.au");
+	  snprintf(name, sizeof(name), "%s/step.au", XDIGGER_LIB_DIR);
 	  break;
 	case TON_STEINE:
-	  strcat(name, "/stone.au");
+	  snprintf(name, sizeof(name), "%s/stone.au", XDIGGER_LIB_DIR);
 	  break;
 	}
       
@@ -510,7 +510,7 @@ void sound(char ton_typ)
 /*       if (rplay_display(name) < 0) */
       if (Play_RPlay_Sound(name, 200) < 0)
 	{
-	  sprintf(error, "%s: (rplay) ", progname);
+	  snprintf(error, sizeof(error), "%s: (rplay) ", progname);
 	  rplay_perror(error);
 	  fprintf(stderr, "%s: disable rplay-sound.\n", progname);
 	  sound_device = SD_NONE;

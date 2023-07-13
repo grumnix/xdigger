@@ -57,11 +57,11 @@ void ChangePS()
 {
   char slevel[3], scmdln[7];
 
-  sprintf(slevel, "%d", akt_level_number);
+  snprintf(slevel, sizeof(slevel), "%d", akt_level_number);
   if (cheat)
-    strcat(strcat(strcpy(scmdln, " (C"), slevel), ")");
+    snprintf(scmdln, sizeof(scmdln), " (C%s)", slevel);
   else
-    strcat(strcat(strcpy(scmdln, " (L"), slevel), ")");
+    snprintf(scmdln, sizeof(scmdln), " (L%s)", slevel);
   strcpy(LastArgv, scmdln);
 } /* ChangePS() */
 
@@ -325,7 +325,7 @@ void Restore_LeftTime()
 {
   char slefttime[7];
 
-  sprintf(slefttime, "%.6d", lefttime);
+  snprintf(slefttime, sizeof(slefttime), "%.6d", lefttime);
   if ((lefttime < 1000) && ((lefttime % 4) <= 1) && (lefttime != 0))
     strcpy(slefttime, "      ");
   WriteTextStr(slefttime, 18, vertvar, kcf_weiss, kcb_rot);
@@ -335,7 +335,7 @@ void Restore_Diamonds()
 {
   char snumber_diamonds[3];
 
-  sprintf(snumber_diamonds, "%.2d", number_diamonds);
+  snprintf(snumber_diamonds, sizeof(snumber_diamonds), "%.2d", number_diamonds);
   WriteTextStr(snumber_diamonds, 36, vertvar, kcf_weiss, kcb_rot);
 } /* Restore_Diamonds() */
 
@@ -343,7 +343,7 @@ void Restore_Score()
 {
   char sscore[7];
 
-  sprintf(sscore, "%.6d", score);
+  snprintf(sscore, sizeof(sscore), "%.6d", score);
   WriteTextStr(sscore, 18, 1+vertvar, kcf_weiss, kcb_rot);
 } /* Restore_Score() */
 
@@ -351,7 +351,7 @@ void Restore_Collected_Diamonds()
 {
   char scollected_diamonds[3];
 
-  sprintf(scollected_diamonds, "%.2d", collected_diamonds);
+  snprintf(scollected_diamonds, sizeof(scollected_diamonds), "%.2d", collected_diamonds);
   WriteTextStr(scollected_diamonds, 36, 1+vertvar, kcf_weiss, kcb_rot);
 } /* Restore_Collected_Diamonds() */
 
@@ -359,10 +359,10 @@ void Init_First_Line()
 {
   char croom[41], clives[41], slevel_number[3], slives[20];
 
-  sprintf(slevel_number, "%.2d", akt_level_number);
-  sprintf(slives, "%.2d", lives);
-  strcat(strcpy(croom, " ROOM:  "), slevel_number);
-  strcat(strcpy(clives, " LIVES: "), slives);
+  snprintf(slevel_number, sizeof(slevel_number), "%.2d", akt_level_number);
+  snprintf(slives, sizeof(slives), "%.2d", lives);
+  snprintf(croom, sizeof(croom), " ROOM:  %s", slevel_number);
+  snprintf(clives, sizeof(clives), " LIVES: %s", slives);
 
   if (!vert240)
     WriteTextStr("\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135\135", 0, 0, kcf_tuerkis, kcb_blau);
@@ -1364,8 +1364,8 @@ void RunLevels(int von_level, int bis_level)
 		}
 	      if ((keysym == XK_9) || (keysym == XK_d))
 		{
-		  if (keysym == XK_9) strcat(scheat, "9");
-		  if (keysym == XK_d) strcat(scheat, "d");
+		  if (keysym == XK_9) strncat(scheat, "9", sizeof(scheat) - strlen(scheat) - 1);
+		  if (keysym == XK_d) strncat(scheat, "d", sizeof(scheat) - strlen(scheat) - 1);
 		  if (strcmp(scheat, "99d") == 0)
 		    {
 		      XBell(display, 0);
