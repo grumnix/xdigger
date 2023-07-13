@@ -31,7 +31,7 @@ InstallNamedNonExec(audio/stone.au,stone.au,XDIGGER_LIB_DIR)
 InstallNamedNonExec(pixmaps/xdigger.xpm,xdigger.xpm,$(ICONDIR))
 /* InstallNonExecFileNoClobber(xdigger.hiscore,XDIGGER_HISCORE_DIR) */
 
-install::
-	$(MKDIRHIER) XDIGGER_HISCORE_DIR
-	touch XDIGGER_HISCORE_DIR/xdigger.hiscore
-	chmod a+w XDIGGER_HISCORE_DIR/xdigger.hiscore
+#install::
+#	$(MKDIRHIER) XDIGGER_HISCORE_DIR
+#	touch XDIGGER_HISCORE_DIR/xdigger.hiscore
+#	chmod a+w XDIGGER_HISCORE_DIR/xdigger.hiscore
