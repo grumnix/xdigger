@@ -37,8 +37,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "nixpkgs": "nixpkgs",
-        "xdigger_src": "xdigger_src"
+        "nixpkgs": "nixpkgs"
       }
     },
     "systems": {
@@ -54,18 +53,6 @@
         "owner": "nix-systems",
         "repo": "default",
         "type": "github"
-      }
-    },
-    "xdigger_src": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-ZOaD1X12mXn5BJMrRsKrUcFb4/SqZ2ffrdQqtPxRQCI=",
-        "type": "tarball",
-        "url": "https://ftp.lip6.fr/pub/linux/sunsite/games/arcade/xdigger-1.0.10.tgz"
-      },
-      "original": {
-        "type": "tarball",
-        "url": "https://ftp.lip6.fr/pub/linux/sunsite/games/arcade/xdigger-1.0.10.tgz"
       }
     }
   },

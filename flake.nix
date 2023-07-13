@@ -2,12 +2,9 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     flake-utils.url = "github:numtide/flake-utils";
-
-    xdigger_src.url = "https://ftp.lip6.fr/pub/linux/sunsite/games/arcade/xdigger-1.0.10.tgz";
-    xdigger_src.flake = false;
   };
 
-  outputs = { self, nixpkgs, flake-utils, xdigger_src }:
+  outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
@@ -19,21 +16,35 @@
             pname = "xdigger";
             version = "1.0.10";
 
-            src = xdigger_src;
+            src = ./.;
 
-            patches = [
-              ./patches/buffers.txt
-              ./patches/dont-create-highscore.txt
-	            ./patches/start-level-on-move.txt
-              ./patches/config.txt
-              ./patches/escape-hyphen-in-manpage.txt
-              ./patches/open-mode.txt
-            ];
+            configurePhase = ''
+              substituteInPlace configure.h \
+                --replace "/usr/share/games/xdigger" \
+                          "$out/share/games/xdigger"
+              substituteInPlace Imakefile \
+                --replace "/usr/games" \
+                          "$out/bin" \
+                --replace "/usr/share/man/man6" \
+                          "$out/share/man/man6" \
+                --replace "/usr/share/pixmaps" \
+                          "$out/share/pixmaps"
+              substituteInPlace xdigger.desktop \
+                --replace "Exec=xdigger" \
+                          "Exec=$out/xdigger"
+              xmkmf
+            '';
 
             buildPhase = ''
+              make
             '';
 
             installPhase = ''
+              make install
+              make install.man
+
+              mkdir -p $out/share/applications/
+              install xdigger.desktop $out/share/applications/
             '';
 
             nativeBuildInputs = with pkgs; [
@@ -43,6 +54,7 @@
 
             buildInputs = with pkgs; [
               xorg.libX11
+              xorg.libXext
             ];
           };
         };
