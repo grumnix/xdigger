@@ -1,0 +1,21 @@
+Description: Do not include the highscore file in the Debian package
+Forwarded: no
+Author: Ansgar Burchardt <ansgar@debian.org>
+Last-Update: 2008-02-02
+
+Index: xdigger-1.0.10/Imakefile
+===================================================================
+--- xdigger-1.0.10.orig/Imakefile	2008-02-02 18:44:59.000000000 +0100
++++ xdigger-1.0.10/Imakefile	2008-02-02 18:45:18.000000000 +0100
+@@ -31,7 +31,7 @@
+ InstallNamedNonExec(pixmaps/xdigger.xpm,xdigger.xpm,$(ICONDIR))
+ /* InstallNonExecFileNoClobber(xdigger.hiscore,XDIGGER_HISCORE_DIR) */
+ 
+-install::
+-	$(MKDIRHIER) XDIGGER_HISCORE_DIR
+-	touch XDIGGER_HISCORE_DIR/xdigger.hiscore
+-	chmod a+w XDIGGER_HISCORE_DIR/xdigger.hiscore
++#install::
++#	$(MKDIRHIER) XDIGGER_HISCORE_DIR
++#	touch XDIGGER_HISCORE_DIR/xdigger.hiscore
++#	chmod a+w XDIGGER_HISCORE_DIR/xdigger.hiscore
