@@ -1,0 +1,37 @@
+#include "configure.h"
+
+BINDIR=/usr/bin/X11
+MANDIR=$(MANSOURCEPATH)6
+MANSUFFIX=6
+ICONDIR=/usr/include/X11/pixmaps
+
+# Flags
+CDEBUGFLAGS = -Wall
+
+#ifdef SOUND_RPLAY
+RPLAYLIB = -lrplay
+#endif
+#ifdef SOUND_NAS
+NASLIB = -laudio -lm
+#endif
+LOCAL_LIBRARIES = $(XLIB) $(RPLAYLIB) $(NASLIB)
+
+  SRCS = xdigger.c drawtext.c drawpixmaps.c title.c runlevels.c highscore.c \
+         icon.c sound.c
+  OBJS = xdigger.o drawtext.o drawpixmaps.o title.o runlevels.o	highscore.o \
+         icon.o sound.o
+
+ComplexProgramTarget(xdigger)
+InstallNonExecFile(xdigger.level,XDIGGER_LIB_DIR)
+#ifdef SOUND_RPLAY
+InstallNamedNonExec(audio/diamond.au,diamond.au,XDIGGER_LIB_DIR)
+InstallNamedNonExec(audio/step.au,step.au,XDIGGER_LIB_DIR)
+InstallNamedNonExec(audio/stone.au,stone.au,XDIGGER_LIB_DIR)
+#endif
+InstallNamedNonExec(pixmaps/xdigger.xpm,xdigger.xpm,$(ICONDIR))
+/* InstallNonExecFileNoClobber(xdigger.hiscore,XDIGGER_HISCORE_DIR) */
+
+install::
+	$(MKDIRHIER) XDIGGER_HISCORE_DIR
+	touch XDIGGER_HISCORE_DIR/xdigger.hiscore
+	chmod a+w XDIGGER_HISCORE_DIR/xdigger.hiscore

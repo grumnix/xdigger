@@ -1,0 +1,27 @@
+99/07/04
+  - fixed bug with 32bit-displaydepth
+
+98/05/04
+  - changed some colors
+
+98/04/22
+  - some changes in event-handling
+
+97/12/21
+  - added dynamic change of size
+  - option -noblink turns off diamond-blinking
+
+97/02/17
+  - NAS (network audio system) supported
+
+96/11/07
+  - diamonds now are blinking
+
+96/06/21
+  - fixed problems with SUN - compability
+
+96/06/17
+  - added experimental rplay - support
+
+96/06/04
+  - added KC85-sound emulation for /dev/audio & /dev/dsp (linux) by Jan Fricke

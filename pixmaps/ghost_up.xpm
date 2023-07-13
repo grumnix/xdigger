@@ -1,0 +1,23 @@
+/* XPM */
+static char * ghost_up_xpm[] = {
+"16 16 4 1",
+" 	c #030205",
+".	c #CA0F19",
+"X	c #8FE041",
+"o	c #276BD3",
+"  .....  .....  ",
+"      ....      ",
+"     ......     ",
+"    ........    ",
+"    ........    ",
+"    ........    ",
+"     ......     ",
+"      ....      ",
+"     XXXXXX     ",
+"  XXXXXXXXXXXX  ",
+"  X  XXXXXX  X  ",
+" XXX XXXXXX XXX ",
+"     oooooo     ",
+"   oooooooooo   ",
+"   oo      oo   ",
+" oooo      oooo "};

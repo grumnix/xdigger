@@ -1,0 +1,15 @@
+Begin3
+Title:          xdigger
+Version:        1.0.10
+Entered-date:   01Aug99
+Description:    The original KC85 - Digger rewritten for X11
+                Like Boulderdash (without scrolling)
+Keywords:       X11 games puzzle xdigger
+Author:         lang@mueritz-comp.de (Alexander Lang)
+Maintained-by:  lang@mueritz-comp.de (Alexander Lang)
+Primary-site:   sunsite.unc.edu /pub/Linux/games/arcade
+Alternate-site: 
+Original-site:  
+Platforms:      Linux
+Copying-policy: GPL
+End

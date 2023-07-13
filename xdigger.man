@@ -1,0 +1,68 @@
+.TH XDIGGER 6 "July 1999" "Ali & Jan"
+.SH NAME
+xdigger \- Digger game for X11
+.SH SYNOPSIS
+.B xdigger
+[
+.I options
+]
+
+.SH DESCRIPTION
+.B xdigger
+is the X-version of the (KC85-)Digger game. 
+
+.SH OPTIONS
+Some standard X toolkit parameters may be given, such as 
+\fB\-display\fP \fIdisplay\fP etc.
+
+\fB\-1\fP the window-size is  320x256
+
+\fB\-2\fP the window-size is  640x512 (default)
+
+\fB\-3\fP the window-size is  960x768
+
+\fB\-4\fP the window-size is 1280x1024
+
+\fB\-5...\fP analog
+
+\fB\-noblink\fP don't blink (diamonds)
+
+\fB\-noiconmove\fP don't change the icon while playing
+
+\fB\-vert240\fP use a vertical resolution of 240 instead of 256
+
+\fB\-sound [dsp|audio|xbell|rplay|nas|auto|off]\fP sound device
+
+\fB\-v\fP, \fB--version\fP version
+
+\fB\-?\fP, \fB-h\fP, \fB--help\fP help
+
+.SH FILES
+/usr/lib/X11/xdigger/xdigger.level
+/var/X11R6/scores/xdigger.hiscore
+
+.SH KEYBOARD BINDINGS
+The \fBarrow\fP keys will move the man.
+\fBEsc\fP or \fBC-b\fP restarts the level.
+\fBx\fP returns to the main menu.
+\fBq\fP exits the game.
+\fB+\fP and \fB-\fP will change the size of the window.
+
+.SH HISTORY & CREDITS
+Digger was originally developed for the KC 85/3 and KC 85/4.
+The program code was by Alexander Lang, the graphics were by
+Martin Guth, the title graphic by Stefan Dahlke. The levels were developed
+by Thomas Carstens, Andrea Ernert, Martin Guth, Alexander Lang and
+Heiko Schade.
+
+.SH BUGS
+Please report bugs to the author!
+
+.SH AUTHOR
+Alexander Lang (lang@mueritz-comp.de)
+
+Jan Fricke (fricke@rz.uni-greifswald.de) (KC85-sound emulation)
+
+.SH COPYRIGHT
+Copyright (c) 1988, 1999 by Alexander Lang
+.sp 1

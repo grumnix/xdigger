@@ -1,0 +1,22 @@
+/* XPM */
+static char * diamond1_xpm[] = {
+"16 16 3 1",
+" 	c #030205",
+".	c #E7E95D",
+"X	c #CD871B",
+"                ",
+"                ",
+"                ",
+"                ",
+"   XXXXXXXXX    ",
+"  XXXXXXXXXXX   ",
+" XXXXXXXXXXXXX  ",
+"                ",
+"                ",
+"                ",
+" .           .  ",
+"  ...........   ",
+"   XXXXXXXXX    ",
+"                ",
+"                ",
+"                "};
