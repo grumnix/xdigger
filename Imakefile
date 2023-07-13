@@ -1,12 +1,12 @@
 #include "configure.h"
 
-BINDIR=/usr/bin/X11
-MANDIR=$(MANSOURCEPATH)6
+BINDIR=/usr/games
+MANDIR=/usr/share/man/man6
 MANSUFFIX=6
-ICONDIR=/usr/include/X11/pixmaps
+ICONDIR=/usr/share/pixmaps
 
 # Flags
-CDEBUGFLAGS = -Wall
+CDEBUGFLAGS = -Wall -O2
 
 #ifdef SOUND_RPLAY
 RPLAYLIB = -lrplay

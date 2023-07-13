@@ -38,8 +38,8 @@ Some standard X toolkit parameters may be given, such as
 \fB\-?\fP, \fB-h\fP, \fB--help\fP help
 
 .SH FILES
-/usr/lib/X11/xdigger/xdigger.level
-/var/X11R6/scores/xdigger.hiscore
+/usr/share/games/xdigger/xdigger.level
+/var/games/xdigger.hiscore
 
 .SH KEYBOARD BINDINGS
 The \fBarrow\fP keys will move the man.

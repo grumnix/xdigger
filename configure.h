@@ -19,8 +19,8 @@ the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139, USA.  */
 #define _CONFIGURE_H
 
 /* Directories */
-#define XDIGGER_LIB_DIR     "/usr/lib/X11/xdigger"
-#define XDIGGER_HISCORE_DIR "/var/X11R6/scores"
+#define XDIGGER_LIB_DIR     "/usr/share/games/xdigger"
+#define XDIGGER_HISCORE_DIR "/var/games"
 
 #define SOUND_DSP_AUDIO
 
