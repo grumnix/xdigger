@@ -50,6 +50,10 @@ install(FILES pixmaps/xdigger.xpm
   DESTINATION ${CMAKE_INSTALL_DATADIR}/pixmaps/
   )
 
+install(FILES xdigger.png
+  DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/32x32/apps/
+  )
+
 install(FILES xdigger.desktop
   DESTINATION ${CMAKE_INSTALL_DATADIR}/applications/
   )

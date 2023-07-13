@@ -24,7 +24,7 @@
                           "$out/share/games/xdigger"
               substituteInPlace xdigger.desktop \
                 --replace "Exec=xdigger" \
-                          "Exec=$out/xdigger"
+                          "Exec=$out/bin/xdigger"
             '';
 
             nativeBuildInputs = with pkgs; [
