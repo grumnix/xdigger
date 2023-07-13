@@ -310,17 +310,17 @@ void create_audiofiles()
 
   Fill_TonBuffer(TON_AUDIO_LOW, TON_AUDIO_HIGH, TON_AUDIO_RATE, True);
 
-  fd = open("audio/diamond.au", O_CREAT | O_WRONLY);
+  fd = open("audio/diamond.au", O_CREAT | O_WRONLY, 0644);
   fchmod(fd, 0644);
   write(fd, &ton_buffer[TON_DIAMANT], ton_laenge[TON_DIAMANT]+24);
   close(fd);
 
-  fd = open("audio/stone.au", O_CREAT | O_WRONLY);
+  fd = open("audio/stone.au", O_CREAT | O_WRONLY, 0644);
   fchmod(fd, 0644);
   write(fd, &ton_buffer[TON_STEINE], ton_laenge[TON_STEINE]+24);
   close(fd);
 
-  fd = open("audio/step.au", O_CREAT | O_WRONLY);
+  fd = open("audio/step.au", O_CREAT | O_WRONLY, 0644);
   fchmod(fd, 0644);
   write(fd, &ton_buffer[TON_SCHRITT], ton_laenge[TON_SCHRITT]+24);
   close(fd);
