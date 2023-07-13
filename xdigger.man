@@ -33,9 +33,9 @@ Some standard X toolkit parameters may be given, such as
 
 \fB\-sound [dsp|audio|xbell|rplay|nas|auto|off]\fP sound device
 
-\fB\-v\fP, \fB--version\fP version
+\fB\-v\fP, \fB\-\-version\fP version
 
-\fB\-?\fP, \fB-h\fP, \fB--help\fP help
+\fB\-?\fP, \fB-h\fP, \fB\-\-help\fP help
 
 .SH FILES
 /usr/share/games/xdigger/xdigger.level
