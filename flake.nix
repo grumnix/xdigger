@@ -18,38 +18,17 @@
 
             src = ./.;
 
-            configurePhase = ''
+            preConfigure = ''
               substituteInPlace configure.h \
                 --replace "/usr/share/games/xdigger" \
                           "$out/share/games/xdigger"
-              substituteInPlace Imakefile \
-                --replace "/usr/games" \
-                          "$out/bin" \
-                --replace "/usr/share/man/man6" \
-                          "$out/share/man/man6" \
-                --replace "/usr/share/pixmaps" \
-                          "$out/share/pixmaps"
               substituteInPlace xdigger.desktop \
                 --replace "Exec=xdigger" \
                           "Exec=$out/xdigger"
-              xmkmf
-            '';
-
-            buildPhase = ''
-              make
-            '';
-
-            installPhase = ''
-              make install
-              make install.man
-
-              mkdir -p $out/share/applications/
-              install xdigger.desktop $out/share/applications/
             '';
 
             nativeBuildInputs = with pkgs; [
-              xorg.imake
-              xorg.gccmakedep
+              cmake
             ];
 
             buildInputs = with pkgs; [

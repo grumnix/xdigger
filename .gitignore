@@ -3,6 +3,10 @@
 # Nix
 /result
 /result-[0-9]
+/outputs
+
+# cmake
+/build
 
 # xdigger
 *.o
