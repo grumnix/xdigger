@@ -148,11 +148,10 @@ int InsertScore(int score, char *name)
       for (j=19; j>i; j--)
 	{
 	  highscore[j].score = highscore[j-1].score;
-	  snprintf(highscore[j].name, sizeof(highscore[j].name),
-	    highscore[j-1].name);
+	  strncpy(highscore[j].name, highscore[j-1].name, sizeof(highscore[j].name));
 	}
       highscore[i].score = score;
-      snprintf(highscore[i].name, sizeof(highscore[i].name), name);
+      strncpy(highscore[i].name, name, sizeof(highscore[i].name));
       break;
     }
   return(erg);
