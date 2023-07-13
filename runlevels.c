@@ -1280,18 +1280,22 @@ void RunLevels(int von_level, int bis_level)
 		  wait_count = 0;
 		  break;
 		case XK_Left:
+		  wait_count = 0;
 		  kb_left = True; rd_left = False;
 		  if (cheat && inpause) step = True;
 		  break;
 	        case XK_Right:
+		  wait_count = 0;
 		  kb_right = True; rd_right = False;
 		  if (cheat && inpause) step = True;
 		  break;
 		case XK_Up:
+		  wait_count = 0;
 		  kb_up = True; rd_up = False;
 		  if (cheat && inpause) step = True;
 		  break;
 		case XK_Down:
+		  wait_count = 0;
 		  kb_down = True; rd_down = False;
 		  if (cheat && inpause) step = True;
 		  break;
