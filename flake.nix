@@ -33,8 +33,8 @@
             ];
 
             buildInputs = with pkgs; [
-              xorg.libX11
-              xorg.libXext
+              libx11
+              libxext
               SDL2
               SDL2_mixer
             ];
