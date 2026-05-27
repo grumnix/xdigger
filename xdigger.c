@@ -107,7 +107,7 @@ int IOErrorHandler(Display *display)
   return 0;
 }
 
-void TimerHandler()
+void TimerHandler(int sig)
 {
   takt = True;
   signal(SIGALRM, &TimerHandler);
